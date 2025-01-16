@@ -282,3 +282,28 @@ export const fetchMyBookings = async (): Promise<HotelType[]> => {
 
   return response.json();
 };
+
+export const fetchHotelReviews = async (hotelId: string) => {
+  const response = await fetch(`${API_BASE_URL}/api/hotels/${hotelId}/reviews`);
+  if (!response.ok) {
+    throw new Error("Error fetching reviews");
+  }
+  return response.json();
+};
+
+export const submitHotelReview = async (hotelId: string, reviewData: { rating: number; comment: string }) => {
+  const response = await fetch(`${API_BASE_URL}/api/hotels/${hotelId}/reviews`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(reviewData),
+  });
+
+  if (!response.ok) {
+    throw new Error("Error submitting review");
+  }
+
+  return response.json();
+};

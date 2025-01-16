@@ -13,6 +13,13 @@ const bookingSchema = new mongoose.Schema<BookingType>({
   totalCost: { type: Number, required: true },
 });
 
+const reviewSchema = new mongoose.Schema({
+  userId: { type: String, required: true },
+  rating: { type: Number, required: true, min: 1, max: 5 },
+  comment: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+});
+
 const hotelSchema = new mongoose.Schema<HotelType>({
   userId: { type: String, required: true },
   name: { type: String, required: true },
@@ -28,6 +35,7 @@ const hotelSchema = new mongoose.Schema<HotelType>({
   imageUrls: [{ type: String, required: true }],
   lastUpdated: { type: Date, required: true },
   bookings: [bookingSchema],
+  reviews: [reviewSchema],
 });
 
 const Hotel = mongoose.model<HotelType>("Hotel", hotelSchema);

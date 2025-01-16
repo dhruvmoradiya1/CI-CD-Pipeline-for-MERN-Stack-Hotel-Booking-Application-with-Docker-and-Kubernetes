@@ -176,6 +176,40 @@ router.post(
   }
 );
 
+router.post(
+  "/:hotelId/reviews",
+  verifyToken,
+  async (req: Request, res: Response) => {
+    try {
+      const { rating, comment } = req.body;
+      const hotelId = req.params.hotelId;
+
+      const newReview = {
+        userId: req.userId,
+        rating,
+        comment,
+      };
+
+      const hotel = await Hotel.findOneAndUpdate(
+        { _id: hotelId },
+        {
+          $push: { reviews: newReview },
+        }
+      );
+
+      if (!hotel) {
+        return res.status(400).json({ message: "hotel not found" });
+      }
+
+      await hotel.save();
+      res.status(200).send();
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "something went wrong" });
+    }
+  }
+);
+
 const constructSearchQuery = (queryParams: any) => {
   let constructedQuery: any = {};
 
@@ -225,6 +259,12 @@ const constructSearchQuery = (queryParams: any) => {
   if (queryParams.maxPrice) {
     constructedQuery.pricePerNight = {
       $lte: parseInt(queryParams.maxPrice).toString(),
+    };
+  }
+
+  if (queryParams.minRating) {
+    constructedQuery["reviews.rating"] = {
+      $gte: parseInt(queryParams.minRating),
     };
   }
 
