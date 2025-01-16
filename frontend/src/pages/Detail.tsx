@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import * as apiClient from "./../api-client";
 import { AiFillStar } from "react-icons/ai";
 import GuestInfoForm from "../forms/GuestInfoForm/GuestInfoForm";
+import ReviewForm from "../components/ReviewForm";
+import ReviewList from "../components/ReviewList";
 
 const Detail = () => {
   const { hotelId } = useParams();
@@ -58,6 +60,11 @@ const Detail = () => {
             hotelId={hotel._id}
           />
         </div>
+      </div>
+
+      <div className="space-y-6">
+        <ReviewList hotelId={hotel._id} />
+        <ReviewForm hotelId={hotel._id} />
       </div>
     </div>
   );
