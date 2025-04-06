@@ -2,21 +2,23 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-deployment
-  namespace: mern-app
+  namespace: mern-app-ns
+  labels:
+    app: server
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend
+      app: server
   template:
     metadata:
       name: backend-pod
-      namespace: mern-app
+      namespace: mern-app-ns
       labels:
-        app: backend
+        app: server
     spec:
       containers:
-        - name: backend
+        - name: mern-backend
           image: dhruvmoradiya69000/mern-backend:latest
           ports:
             - containerPort: 5050

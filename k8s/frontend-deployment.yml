@@ -2,7 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend-deployment
-  namespace: mern-app
+  namespace: mern-app-ns
+  labels:
+    app: frontend
 spec:
   replicas: 1
   selector:
@@ -11,7 +13,7 @@ spec:
   template:
     metadata:
       name: frontend-pod
-      namespace: mern-app
+      namespace: mern-app-ns
       labels:
         app: frontend
     spec:

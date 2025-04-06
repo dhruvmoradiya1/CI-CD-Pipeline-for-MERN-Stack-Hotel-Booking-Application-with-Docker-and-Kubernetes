@@ -1,22 +1,25 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: mongodb-deployment
-  namespace: mern-app
+  name: mongodb
+  namespace: mern-app-ns
+  labels:
+    app: mongodb
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: mongodb
+  serviceName: mongodb-headless
+  replicas: 1
   template:
     metadata:
       name: mongodb-pod
-      namespace: mern-app
-      labels: 
+      namespace: mern-app-ns
+      labels:
         app: mongodb
     spec:
       containers:
-      - name: mernapp-mongodb
+      - name: mongodb
         image: mongo:latest
         ports:
         - containerPort: 27017
@@ -31,10 +34,16 @@ spec:
             secretKeyRef:
               name: all-secrets
               key: MONGO_INITDB_ROOT_PASSWORD
-      volumes:
-      - name: mongo-data
-        persistentVolumeClaim:
-          claimName: mongodb-pvc   
-
-
-
+        volumeMounts:
+        - name: mongo-data
+          mountPath: /data/db
+  volumeClaimTemplates:
+  - metadata:
+      name: mongo-data
+      labels:
+        app: mongodb
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi

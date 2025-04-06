@@ -1,4 +1,4 @@
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: mern-app
+  name: mern-app-ns

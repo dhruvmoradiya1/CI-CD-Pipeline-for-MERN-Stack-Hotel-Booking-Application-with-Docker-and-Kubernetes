@@ -1,11 +1,15 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mongodb-pvc
-  namespace: mern-app
+  name: mern-app-pvc
+  namespace: mern-app-ns
+  labels:
+    app: mern-app
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
+  storageClassName: manual
+  

@@ -87,11 +87,6 @@ app.use("/api/my-hotels", myHotelRoutes);
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/my-bookings", bookingRoutes);
 
-// Health check route
-app.get("/", (req: Request, res: Response) => {
-  res.send("🚀 Server is up and running, MongoDB is connected, and we're live on the web! 🌐");
-});
-
 // Global error handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error("❌ Error:", err.stack);
@@ -105,7 +100,7 @@ app.use((req: Request, res: Response) => {
 
 // Start the server
 const server = app.listen(5050, async () => {
-  console.log("🚀 Server running on http://localhost:5050");
+  console.log("🚀 Server running on 5050");
   await connectDB();
 });
 
